@@ -2,8 +2,6 @@
 
 The script managed the clustered deployment of resource management for dockers (per service)
 
-## Build
-`mvn package`
+## Build microservices using docker compose
+`docker-compose up`
 
-## Run
-`mvn spring-boot:run`
