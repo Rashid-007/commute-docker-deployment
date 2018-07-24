@@ -1,5 +1,5 @@
-commute-service-discovery:
-   image:   dockerxya/commute-service-discovery-service:${BUILD_NAME}
+commuteservicediscovery:
+   image:   dockerxya/commute-service-discovery:local
    mem_limit: 1073741824
    ports:
        - "8761:8761"
@@ -7,44 +7,42 @@ commute-service-discovery:
 #configserver:
 
 
-commute-api-gateway:
-    image: dockerxya/commute-api-gateway:${BUILD_NAME}
+commuteapigateway:
+    image: dockerxya/commute-api-gateway:local
     mem_limit: 1073741824
     ports:
-      - "5555:5555"
+      - "9001:9001"
     links:
-      - "commute-auth-service:commute-auth-service"
+      - "commuteservicediscovery:commuteservicediscovery"
     environment:
       PROFILE: "default"
-      SERVER_PORT: "5555"
-      EUREKASERVER_URI: "http://commute-auth-service:8761/eureka/"
+      SERVER_PORT: "9001"
+      COMMUTESERVICEDISCOVERY_URI: "http://commuteservicediscovery:8761/eureka/"
 
-commute-auth-service:
-    image: dockerxya/commute-authentication-service:${BUILD_NAME}
+commuteauthservice:
+    image: dockerxya/commute-auth-service:local
     mem_limit: 1073741824
     ports:
       - "8901:8901"
     links:
-      - "commute-service-discovery:commute-service-discovery"
-      - "commute-api-gateway:commute-api-gateway"
+      - "commuteservicediscovery:commuteservicediscovery"
+      - "commuteapigateway:commuteapigateway"
     environment:
-      PROFILE: "aws-dev"
       SERVER_PORT: "8901"
-      EUREKASERVER_URI: "http://commute-service-discovery:8761/eureka/"
+      COMMUTESERVICEDISCOVERY_URI: "http://commuteservicediscovery:8761/eureka/"
 
-commute-directions-service:
-    image: dockerxya/commute-direction-service:${BUILD_NAME}
+commutedirectionsservice:
+    image: dockerxya/commute-direction-service:local
     mem_limit: 1073741824
     ports:
       - "8085:8085"
     links:
-      - "commute-service-discovery:commute-service-discovery"
-      - "commute-api-gateway:commute-api-gateway"
-      - "commute-auth-service:commute-auth-service"
+      - "commuteservicediscovery:commuteservicediscovery"
+      - "commuteapigateway:commuteapigateway"
+      - "commuteauthservice:commuteauthservice"
     environment:
-      PROFILE: "aws-dev"
       SERVER_PORT: "8085"
-      EUREKASERVER_URI: "http://commute-service-discovery:8761/eureka/"
-      AUTHSERVER_URI:   "http://commute-auth-service:8901/user"
+      COMMUTESERVICEDISCOVERY_URI: "http://commuteservicediscovery:8761/eureka/"
+      COMMUTEAUTHSERVICE_USER_URI:   "http://commuteauthservice:8901/auth/api/v1/user"
 
 
