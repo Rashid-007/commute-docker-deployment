@@ -1,0 +1,43 @@
+version: '2'
+services:
+  ##INFRASTRUCTURE
+
+  # discovery / http: 9000
+  commute-service-discovery:
+    mem_limit: 1073741824
+    extends:
+      file: ../commute-service-discovery/src/main/docker/app.yml
+      service: commute-service-discovery
+#     ports:
+#         - "8761:8761"
+
+  # api gateway / http: 9001
+  commute-api-gateway:
+    mem_limit: 1073741824
+    extends:
+      file: ../commute-api-gateway/src/main/docker/app.yml
+      service: commute-api-gateway
+
+  # identity server / http: 8081
+  commute-identity-service:
+    mem_limit: 1073741824
+    extends:
+      file: ../commute-identity-service/src/main/docker/app.yml
+      service: commute-identity-service
+    links:
+      - commute-identity-service-postgres:postgres
+  commute-identity-service-postgres:
+    extends:
+      file: ../commute-identity-service/src/main/docker/app.yml
+      service: commute-identity-service-postgres
+
+  # direction service / http: 8082
+  commute-directions-service:
+    mem_limit: 1073741824
+    extends:
+      file: ../commute-directions-service/src/main/docker/app.yml
+      service: commute-directions-service
+
+
+
+
