@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "14c6d258-6ef1-4bff-a7e1-413ea3adaa59",
+		"name": "Commute Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "directions",
+			"description": "",
+			"item": [
+				{
+					"name": "get directions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{url}}/directions-service/api/v1/routes?origin=48.776103,9.18148&destination=48.724831,9.113674&transport=CAR",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"directions-service",
+								"api",
+								"v1",
+								"routes"
+							],
+							"query": [
+								{
+									"key": "origin",
+									"value": "48.776103,9.18148"
+								},
+								{
+									"key": "destination",
+									"value": "48.724831,9.113674"
+								},
+								{
+									"key": "transport",
+									"value": "CAR"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "authenticate identity",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\":\"enayet@commute.com\",\n\t\"password\":\"passW0rd#\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/identity-service/api/v1/accounts",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"identity-service",
+						"api",
+						"v1",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
